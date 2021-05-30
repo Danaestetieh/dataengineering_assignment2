@@ -31,7 +31,7 @@ with DAG(
         tags=['assignment2'],
 ) as dag:
     install_deps = BashOperator(
-        task_id='install_deps',
+        task_id='install_dependecies',
         bash_command='pip install sqlalchemy matplotlib sklearn'
     )
     def generate_days(**kwargs):
@@ -98,7 +98,7 @@ with DAG(
 
 
     generate_initial_data_operator = PythonOperator(
-        task_id='extract_csv',
+        task_id='extract_UK_csv',
         python_callable=extract_csv,
         dag=dag
     )
@@ -131,7 +131,7 @@ with DAG(
         DF_UK_u_3.to_csv('/home/airflow/data/uk_scoring_report.csv')
 
     generate_plot_and_data_operator = PythonOperator(
-        task_id='generate_plot_and_data_operator',
+        task_id='uk_scoring_report.png',
         python_callable=generate_plot_and_data,
         dag=dag
     )
@@ -151,7 +151,7 @@ with DAG(
         DF_uk_u_3.to_sql(f'uk_scoring_report_{Day}', engine,if_exists='replace',index=False)
 
     to_db_operator = PythonOperator(
-        task_id='to_db',
+        task_id='load_to_postgresDB',
         python_callable=to_db,
         dag=dag
     )

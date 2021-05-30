@@ -30,6 +30,8 @@ services:
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
       POSTGRES_DB: airflow
+    ports:
+      - 5432:5432
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
     healthcheck:
@@ -114,8 +116,6 @@ services:
   de_postgres:
     container_name: de_postgres
     image: 'postgres:13.2'
-    ports:
-      - 5432:5432
     environment:
       POSTGRES_DB: psql_data_environment
       POSTGRES_USER: psql_user
